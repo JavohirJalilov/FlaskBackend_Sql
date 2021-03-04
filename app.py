@@ -20,8 +20,17 @@ def add_user():
     user2 = User(username='Diyor',email='diyorbekjumanov@gmail.com')
     db.session.add(user1)
     db.session.add(user2)
-    bd.session.commit()
-    return f'{type(user1)}'
+    db.session.commit()
+    return 'ok'
+
+@app.route('/read')
+def read_user():
+    users = User.query.all()
+
+    all_users = ''
+    for user in users:
+        all_users += f'Username: {user.username}; Email: {user.email}' + '<br>'
+    return all_users
 
 if __name__ == '__main__':
     app.run(debug=True)
