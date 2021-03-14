@@ -7,8 +7,11 @@ db = SQLAlchemy(app)
 
 class User(db.Model):
     id = db.Column(db.Integer,primary_key=True)
-    username = db.Column(db.String(80))
-    email = db.Column(db.String(80))
+    username = db.Column(db.String(80),unique=True)
+    email = db.Column(db.String(80),unique=True)
+
+    def __repr__(self):  
+        return f'username: {self.username} email: {self.email}'
 
 @app.route('/')
 def home():
@@ -25,12 +28,15 @@ def add_user():
 
 @app.route('/read')
 def read_user():
-    users = User.query.all()
+    users = User.query.get(1)
+    return str(users)
 
-    all_users = ''
-    for user in users:
-        all_users += f'Username: {user.username}; Email: {user.email}' + '<br>'
-    return all_users
+@app.route('/delete')
+def delete():
+    users = User.query.first()
+    db.session.delete(users)
+    db.session.commit()
+    return 'delete'
 
 if __name__ == '__main__':
     app.run(debug=True)
