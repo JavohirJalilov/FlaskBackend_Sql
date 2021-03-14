@@ -34,7 +34,8 @@ def read_user():
 @app.route('/delete')
 def delete():
     users = User.query.first()
-    db.session.delete(users)
+    users = User.query.get(2)
+    # db.session.delete(users)
     db.session.commit()
     return 'delete'
 
