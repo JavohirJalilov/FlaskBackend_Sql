@@ -28,7 +28,7 @@ def add_user():
 
 @app.route('/read')
 def read_user():
-    users = User.query.get(1)
+    users = User.query.filter_by(username='Diyor').first()
     return str(users)
 
 @app.route('/delete')
